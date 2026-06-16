@@ -5,275 +5,186 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>پنل مدیریت فیدبک‌ها</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { font-family: 'Vazirmatn', sans-serif; }
-    </style>
+    <style> body { font-family: 'Vazirmatn', sans-serif; } </style>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800 antialiased pb-12">
 
     <header class="bg-white border-b border-slate-100 sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-sm">
         <div class="flex items-center gap-3">
-            <div class="bg-indigo-600 p-2.5 rounded-xl text-white shadow-md shadow-indigo-100">
+            <div class="bg-indigo-600 p-2.5 rounded-xl text-white">
                 <i class="fa-solid fa-chart-line text-lg"></i>
             </div>
             <div>
-                <h1 class="text-lg font-bold text-slate-800">میز کار مدیریت سیستم</h1>
-                <p class="text-xs text-slate-400">بررسی و پاسخگویی به نظرات کاربران</p>
+                <h1 class="text-lg font-bold">میز کار مدیریت</h1>
+                <p class="text-xs text-slate-400">بررسی فیدبک‌های کاربران</p>
             </div>
         </div>
-        <button onclick="logout()" class="flex items-center gap-2 bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-xl transition font-medium text-sm border border-red-100">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i> خروج از پنل
+        <button onclick="logout()" class="flex items-center gap-2 bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-xl text-sm">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> خروج
         </button>
     </header>
 
     <main class="max-w-6xl mx-auto px-4 mt-8">
-        
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-            <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-slate-400 font-medium">کل فیدبک‌ها</p>
-                    <h3 id="totalCount" class="text-2xl font-bold mt-1 text-slate-800">0</h3>
-                </div>
-                <div class="bg-indigo-50 p-3 rounded-xl text-indigo-600 text-xl"><i class="fa-solid fa-inbox"></i></div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border">
+                <p class="text-sm text-slate-500">کل فیدبک‌ها</p>
+                <h3 id="totalCount" class="text-3xl font-bold mt-1">0</h3>
             </div>
-            
-            <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-slate-400 font-medium">گزارش باگ 🐛</p>
-                    <h3 id="bugCount" class="text-2xl font-bold mt-1 text-rose-600">0</h3>
-                </div>
-                <div class="bg-rose-50 p-3 rounded-xl text-rose-600 text-xl"><i class="fa-solid fa-bug"></i></div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border">
+                <p class="text-sm text-slate-500">در انتظار</p>
+                <h3 id="pendingCount" class="text-3xl font-bold mt-1 text-orange-600">0</h3>
             </div>
-
-            <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-slate-400 font-medium">پیشنهاد و انتقاد 💡</p>
-                    <h3 id="suggestionCount" class="text-2xl font-bold mt-1 text-amber-600">0</h3>
-                </div>
-                <div class="bg-amber-50 p-3 rounded-xl text-amber-600 text-xl"><i class="fa-solid fa-lightbulb"></i></div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border">
+                <p class="text-sm text-slate-500">در حال بررسی</p>
+                <h3 id="inProgressCount" class="text-3xl font-bold mt-1 text-blue-600">0</h3>
             </div>
-
-            <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-slate-400 font-medium">سایر موارد 📨</p>
-                    <h3 id="otherCount" class="text-2xl font-bold mt-1 text-teal-600">0</h3>
-                </div>
-                <div class="bg-teal-50 p-3 rounded-xl text-teal-600 text-xl"><i class="fa-solid fa-envelope-open-text"></i></div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border">
+                <p class="text-sm text-slate-500">حل شده</p>
+                <h3 id="resolvedCount" class="text-3xl font-bold mt-1 text-green-600">0</h3>
             </div>
         </div>
 
-        <div class="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
-                <h3 class="font-bold text-slate-700">لیست آخرین پیام‌های دریافتی از کاربران</h3>
-                <button onclick="loadFeedbacks()" class="flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1.5 rounded-xl transition text-xs font-semibold border border-indigo-100">
-                    <i class="fa-solid fa-rotate"></i> بروزرسانی لیست
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b bg-slate-50 flex justify-between">
+                <h3 class="font-bold">لیست فیدبک‌ها</h3>
+                <button onclick="loadFeedbacks()" class="text-indigo-600 hover:text-indigo-700">
+                    <i class="fa-solid fa-rotate"></i> بروزرسانی
                 </button>
             </div>
-            
+
             <div class="overflow-x-auto">
-                <table class="w-full border-collapse text-right">
+                <table class="w-full">
                     <thead>
-                        <tr class="bg-slate-100/50 text-slate-500 text-xs font-bold border-b border-slate-100">
-                            <th class="p-4 w-12 text-center">ردیف</th>
-                            <th class="p-4 w-40">مشخصات کاربر</th>
-                            <th class="p-4 w-36">نوع فیدبک</th>
-                            <th class="p-4">متن پیام دریافتی</th>
-                            <th class="p-4 w-20 text-center">عملیات</th>
+                        <tr class="bg-slate-100 text-xs font-medium text-slate-500">
+                            <th class="p-4 text-center">ردیف</th>
+                            <th class="p-4">کاربر</th>
+                            <th class="p-4">وضعیت</th>
+                            <th class="p-4">پیام</th>
+                            <th class="p-4 text-center">عملیات</th>
                         </tr>
                     </thead>
-                    <tbody id="feedbackTableBody" class="divide-y divide-slate-100 text-sm text-slate-700">
-                        </tbody>
+                    <tbody id="feedbackTableBody" class="divide-y text-sm"></tbody>
                 </table>
             </div>
         </div>
     </main>
 
-<script>
-    const API_BASE_URL = 'http://127.0.0.1:8000/api/feedbacks';
+    <script>
+        const API_BASE_URL = 'http://127.0.0.1:8000/api/feedbacks';
 
-    async function loadFeedbacks() {
-        const token = localStorage.getItem('admin_token');
-        if (!token) { 
-            window.location.href = 'login.html'; 
-            return; 
+        async function loadFeedbacks() {
+            const token = localStorage.getItem('admin_token');
+            if (!token) return window.location.href = 'login.html';
+
+            try {
+                const res = await fetch(API_BASE_URL, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (res.status === 401) return logout();
+                if (!res.ok) throw new Error();
+
+                const feedbacks = await res.json();
+                renderDashboard(feedbacks);
+            } catch (e) {
+                alert("خطا در بارگذاری داده‌ها");
+            }
         }
 
-        const refreshIcon = document.getElementById('refreshIcon');
-        if (refreshIcon) refreshIcon.classList.add('animate-spin');
+        function getStatusBadge(status) {
+            if (status === 'pending') return `<span class="px-3 py-1 text-xs font-medium rounded-full bg-orange-100 text-orange-700">در انتظار</span>`;
+            if (status === 'in_progress') return `<span class="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-700">در حال بررسی</span>`;
+            if (status === 'resolved') return `<span class="px-3 py-1 text-xs font-medium rounded-full bg-green-100 text-green-700">حل شده</span>`;
+            return status;
+        }
 
-        try {
-            const response = await fetch(`${API_BASE_URL}/`, {
-                method: 'GET',
-                headers: { 
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
+        function renderDashboard(feedbacks) {
+            const tbody = document.getElementById('feedbackTableBody');
+            tbody.innerHTML = '';
+
+            let pending = 0, inProgress = 0, resolved = 0;
+
+            if (!feedbacks || feedbacks.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center p-12 text-slate-400">هیچ فیدبکی یافت نشد</td></tr>`;
+                updateStats(0, 0, 0, 0);
+                return;
+            }
+
+            feedbacks.forEach((item, index) => {
+                if (item.status === 'pending') pending++;
+                else if (item.status === 'in_progress') inProgress++;
+                else if (item.status === 'resolved') resolved++;
+
+                const row = `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-4 text-center">${index + 1}</td>
+                        <td class="p-4">
+                            <div class="font-medium">${item.name || 'ناشناس'}</div>
+                            <div class="text-xs text-slate-400">${item.email || ''}</div>
+                        </td>
+                        <td class="p-4">${getStatusBadge(item.status)}</td>
+                        <td class="p-4 text-slate-600">${item.message}</td>
+                        <td class="p-4 text-center">
+                            <select onchange="updateStatus(${item.id}, this.value)" class="text-xs border rounded-lg px-2 py-1">
+                                <option value="pending" ${item.status === 'pending' ? 'selected' : ''}>در انتظار</option>
+                                <option value="in_progress" ${item.status === 'in_progress' ? 'selected' : ''}>در حال بررسی</option>
+                                <option value="resolved" ${item.status === 'resolved' ? 'selected' : ''}>حل شده</option>
+                            </select>
+                            <button onclick="deleteFeedback(${item.id})" class="ml-3 text-red-500 hover:text-red-700">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.insertAdjacentHTML('beforeend', row);
             });
 
-            if (response.status === 401) { 
-                alert("نشست شما منقضی شده است. لطفا مجددا وارد شوید.");
-                logout(); 
-                return; 
-            }
-
-            if (!response.ok) throw new Error('خطا در دریافت اطلاعات فیدبک‌ها');
-
-            const feedbacks = await response.json();
-            renderDashboard(feedbacks);
-
-        } catch (error) {
-            console.error('خطا در بارگذاری:', error);
-            document.getElementById('feedbackTableBody').innerHTML = `
-                <tr><td colspan="5" class="text-center p-8 text-rose-500 font-medium">❌ خطا در برقراری ارتباط</td></tr>
-            `;
-        } finally {
-            if (refreshIcon) refreshIcon.classList.remove('animate-spin');
-        }
-    }
-
-    // function renderDashboard(feedbacks) {
-    //     const tbody = document.getElementById('feedbackTableBody');
-    //     tbody.innerHTML = '';
-
-    //     let bug = 0, suggestion = 0, other = 0;
-
-    //     if (!feedbacks || feedbacks.length === 0) {
-    //         tbody.innerHTML = `<tr><td colspan="5" class="text-center p-8 text-slate-400">هیچ فیدبکی در دیتابیس ثبت نشده است.</td></tr>`;
-    //         updateStatCounters(0, 0, 0, 0);
-    //         return;
-    //     }
-    function renderDashboard(feedbacks) {
-    const tbody = document.getElementById('feedbackTableBody');
-    tbody.innerHTML = '';
-
-    let bug = 0, suggestion = 0, other = 0;
-
-    if (!feedbacks || feedbacks.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="text-center p-8 text-slate-400">هیچ فیدبکی در دیتابیس ثبت نشده است.</td></tr>`;
-        updateStatCounters(0, 0, 0, 0);
-        return;
-    }
-
-    feedbacks.forEach((item, index) => {
-
-        const feedbackType = item.type ? item.type.toLowerCase().trim() : 'other';
-
-        if (feedbackType === 'bug') bug++;
-        else if (feedbackType === 'suggestion') suggestion++;
-        else other++;
-
-        let typeBadge = '';
-        if (feedbackType === 'bug') {
-            typeBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-600 border border-rose-100">🐛 گزارش باگ</span>`;
-        } else if (feedbackType === 'suggestion') {
-            typeBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 border border-amber-100">💡 پیشنهاد</span>`;
-        } else {
-            typeBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-teal-50 text-teal-600 border border-teal-100">📨 سایر موارد</span>`;
+            updateStats(feedbacks.length, pending, inProgress, resolved);
         }
 
-        const row = `
-            <tr class="hover:bg-slate-50/80 transition">
-                <td class="p-4 text-center font-medium text-slate-400">${index + 1}</td>
-                <td class="p-4">
-                    <div class="font-semibold text-slate-800">${item.name || 'کاربر مهمان'}</div>
-                    <div class="text-xs text-slate-400 mt-0.5">${item.email || 'بدون ایمیل'}</div>
-                </td>
-                <td class="p-4">${typeBadge}</td>
-                <td class="p-4 text-slate-600 leading-relaxed">${item.message || 'بدون متن پیام'}</td>
-                <td class="p-4 text-center">
-                    <button onclick="deleteFeedback(${item.id})" class="text-rose-500 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 p-2 rounded-xl transition text-xs" title="حذف فیدبک">
-                        <i class="fa-solid fa-trash-can text-sm"></i>
-                    </button>
-                </td>
-            </tr>
-        `;
-        tbody.insertAdjacentHTML('beforeend', row);
-    });
-
-    updateStatCounters(feedbacks.length, bug, suggestion, other);
-}
-    
-
-        feedbacks.forEach((item, index) => {
-            if (item.type === 'bug') bug++;
-            else if (item.type === 'suggestion') suggestion++;
-            else other++;
-
-            let typeBadge = '';
-            if (item.type === 'bug') {
-                typeBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-600 border border-rose-100">🐛 گزارش باگ</span>`;
-            } else if (item.type === 'suggestion') {
-                typeBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 border border-amber-100">💡 پیشنهاد</span>`;
-            } else {
-                typeBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-teal-50 text-teal-600 border border-teal-100">📨 سایر موارد</span>`;
-            }
-
-            const row = `
-                <tr class="hover:bg-slate-50/80 transition">
-                    <td class="p-4 text-center font-medium text-slate-400">${index + 1}</td>
-                    <td class="p-4">
-                        <div class="font-semibold text-slate-800">${item.name || 'کاربر مهمان'}</div>
-                        <div class="text-xs text-slate-400 mt-0.5">${item.email || 'بدون ایمیل'}</div>
-                    </td>
-                    <td class="p-4">${typeBadge}</td>
-                    <td class="p-4 text-slate-600 leading-relaxed">${item.message || 'بدون متن پیام'}</td>
-                    <td class="p-4 text-center">
-                        <button onclick="deleteFeedback(${item.id})" class="text-rose-500 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 p-2 rounded-xl transition text-xs" title="حذف فیدبک">
-                            <i class="fa-solid fa-trash-can text-sm"></i>
-                        </button>
-                    </td>
-                </tr>
-            `;
-            tbody.insertAdjacentHTML('beforeend', row);
-        });
-
-        updateStatCounters(feedbacks.length, bug, suggestion, other);
-    
-
-    function updateStatCounters(total, bug, suggestion, other) {
-        document.getElementById('totalCount').innerText = total;
-        document.getElementById('bugCount').innerText = bug;
-        document.getElementById('suggestionCount').innerText = suggestion;
-        document.getElementById('otherCount').innerText = other;
-    }
-
-    async function deleteFeedback(feedbackId) {
-        if (!confirm("آیا از حذف این فیدبک مطمئن هستید؟")) return;
-
-        const token = localStorage.getItem('admin_token');
-        if (!token) return logout();
-
-        try {
-
-            const response = await fetch(`${API_BASE_URL}/${feedbackId}`, {
-                method: 'DELETE',
-                headers: { 
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                loadFeedbacks(); 
-            } else if (response.status === 401) {
-                logout();
-            } else {
-                alert('خطا در حذف فیدبک رخ داده است.');
-            }
-        } catch (error) {
-            console.error('Error deleting feedback:', error);
-            alert('ارتباط با سرور برقرار نشد.');
+        function updateStats(total, pending, inProgress, resolved) {
+            document.getElementById('totalCount').innerText = total;
+            document.getElementById('pendingCount').innerText = pending;
+            document.getElementById('inProgressCount').innerText = inProgress;
+            document.getElementById('resolvedCount').innerText = resolved;
         }
-    }
 
-    function logout() {
-        localStorage.removeItem('admin_token');
-        window.location.href = 'login.html';
-    }
+        async function updateStatus(id, newStatus) {
+            const token = localStorage.getItem('admin_token');
+            try {
+                await fetch(`${API_BASE_URL}/${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                loadFeedbacks();
+            } catch (e) { alert("خطا در تغییر وضعیت"); }
+        }
 
-    window.onload = loadFeedbacks;
-</script>
+        async function deleteFeedback(id) {
+            if (!confirm("حذف شود؟")) return;
+            const token = localStorage.getItem('admin_token');
+            try {
+                await fetch(`${API_BASE_URL}/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                loadFeedbacks();
+            } catch (e) { alert("خطا در حذف"); }
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_token');
+            window.location.href = 'login.html';
+        }
+
+        // بارگذاری اولیه
+        window.onload = loadFeedbacks;
+    </script>
 </body>
 </html>

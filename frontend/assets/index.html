@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ثبت فیدبک و نظرات</title>
+    <title>ثبت فیدبک</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
-    <style>
-        body { font-family: 'Vazirmatn', sans-serif; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <style> body { font-family: 'Vazirmatn', sans-serif; } </style>
 </head>
 <body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
 
     <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 w-full max-w-md">
         <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-slate-800 mb-2">ثبت فیدبک و گزارش خطا</h1>
-            <p class="text-sm text-slate-500">نظرات و مشکلات خود را با ما در میان بگذارید.</p>
+            <h1 class="text-2xl font-bold text-slate-800 mb-2">ثبت فیدبک</h1>
+            <p class="text-sm text-slate-500">نظر، پیشنهاد یا مشکل خود را بگویید.</p>
         </div>
 
         <div id="alertBox" class="hidden mb-6 p-4 rounded-xl text-sm font-medium text-center"></div>
@@ -23,30 +21,21 @@
         <form id="feedbackForm" class="space-y-5">
             <div>
                 <label class="block text-sm font-medium text-slate-700 mb-1">نام شما (اختیاری)</label>
-                <input type="text" id="name" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 transition">
+                <input type="text" id="name" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-slate-700 mb-1">ایمیل شما (اختیاری)</label>
-                <input type="email" id="email" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-left text-slate-800 transition" placeholder="name@example.com">
+                <input type="email" id="email" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-left">
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">نوع فیدبک</label>
-                <select id="category" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 bg-white transition">
-                    <option value="bug">گزارش باگ و خطا 🐛</option>
-                    <option value="suggestion">پیشنهاد و انتقاد 💡</option>
-                    <option value="other">سایر موارد 📨</option>
-                </select>
+                <label class="block text-sm font-medium text-slate-700 mb-1">پیام شما</label>
+                <textarea id="message" required rows="5" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="توضیحات خود را بنویسید..."></textarea>
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">متن پیام شما</label>
-                <textarea id="message" required rows="4" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 transition" placeholder="توضیحات خود را اینجا بنویسید..."></textarea>
-            </div>
-
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition shadow-sm shadow-indigo-100 flex items-center justify-center gap-2">
-                <span>ارسال فیدبک</span>
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition">
+                ارسال فیدبک
             </button>
         </form>
     </div>
@@ -56,12 +45,11 @@
         const alertBox = document.getElementById('alertBox');
 
         form.addEventListener('submit', async (e) => {
-            e.preventDefault(); 
+            e.preventDefault();
             
             const formData = {
                 name: document.getElementById('name').value || null,
                 email: document.getElementById('email').value || null,
-                category: document.getElementById('category').value,
                 message: document.getElementById('message').value
             };
 
@@ -73,16 +61,16 @@
                 });
 
                 if (response.ok) {
-                    alertBox.className = "mb-6 p-4 rounded-xl text-sm font-medium text-center bg-green-50 text-green-700 border border-green-100";
-                    alertBox.innerText = "فیدبک شما با موفقیت ثبت شد. متشکریم! 🎉";
+                    alertBox.className = "mb-6 p-4 rounded-xl text-sm font-medium text-center bg-green-50 text-green-700";
+                    alertBox.innerText = "فیدبک شما با موفقیت ثبت شد ✓";
                     alertBox.classList.remove('hidden');
                     form.reset();
                 } else {
                     throw new Error();
                 }
             } catch (error) {
-                alertBox.className = "mb-6 p-4 rounded-xl text-sm font-medium text-center bg-red-50 text-red-700 border border-red-100";
-                alertBox.innerText = "خطا در اتصال به سرور! اتصال اینترنت خود را بررسی نمایید❌";
+                alertBox.className = "mb-6 p-4 rounded-xl text-sm font-medium text-center bg-red-50 text-red-700";
+                alertBox.innerText = "خطا در ارسال! لطفا دوباره تلاش کنید.";
                 alertBox.classList.remove('hidden');
             }
         });
