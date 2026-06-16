@@ -1,12 +1,13 @@
 from sqlalchemy.orm import Session
 from src.models import feedback as models
 from src.schemas import feedback as schemas
+from src.schemas.feedback_status import FeedbackStatus
 
 def create_feedback(db:Session, feedback:schemas.FeedbackCreate):
     db_feedback = models.Feedback(
         name=feedback.name,
         email=feedback.email,
-        category=feedback.category,
+        status=FeedbackStatus.pending,
         message=feedback.message
     )
     db.add(db_feedback)
@@ -17,7 +18,7 @@ def create_feedback(db:Session, feedback:schemas.FeedbackCreate):
 def get_feedbacks(db:Session, skip:int=0, limit:int=100):
     return db.query(models.Feedback).order_by(models.Feedback.created_at.desc()).offset(skip).limit(limit).all()
 
-def update_feedback(db:Session, feedback_id:int, status:str):
+def update_feedback(db:Session, feedback_id:int, status:FeedbackStatus):
     db_feedback = db.query(models.Feedback).filter(models.Feedback.id == feedback_id).first()
     if db_feedback:
         db_feedback.status = status
